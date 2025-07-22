@@ -23,3 +23,5 @@ pip install -r requirements.txt
 Get this bad boy online and serving files!
 
 ```bash
+uvicorn main:air_guardian
+```
