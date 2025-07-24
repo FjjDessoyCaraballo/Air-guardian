@@ -1,12 +1,14 @@
 from fastapi import HTTPException, APIRouter
-from utils.drones import violated_drones
+from utils.drones import violated_drones, append_owner_details
 import requests
+import os
 
 drones_route = APIRouter()
 
 @drones_route.get("/drones")
 def drones():
-	res = requests.get("https://drones-api.hive.fi/drones")
+	url = os.environ["DRONES_API_BASE_URL"] + "drones"
+	res = requests.get(url)
 	if res.status_code != 200:
 		# log error
 		return HTTPException(500, "Internal server error")
@@ -18,7 +20,9 @@ def drones():
 		return HTTPException(500, "Internal server error")
 
 	drones = violated_drones(body)
-	if len(drones):
+	if drones:
 		print("violation detected")
+		if not append_owner_details(drones):
+			return HTTPException(500, "Internal server error")
 		#update db
 	return body
