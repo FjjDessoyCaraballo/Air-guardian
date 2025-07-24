@@ -1,0 +1,9 @@
+.venv
+AGvenv
+celerybeat-schedule
+celerybeat-schedule-shm
+celerybeat-schedule-wal
+mydb.db
+__pycache__
+*/__pycache__
+.env

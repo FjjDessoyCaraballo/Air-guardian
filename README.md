@@ -20,6 +20,17 @@ Run the `requirements.txt`:
 pip install -r requirements.txt
 ```
 
+Start the message broker rabbitmq in a container
+```bash
+docker run -d -p 5672:5672 rabbitmq
+```
+Run the Celery worker server
+```bash
+celery -A patrol_airspace worker --beat --loglevel=info  
+```
+
 Get this bad boy online and serving files!
 
 ```bash
+uvicorn main:air_guardian
+```
