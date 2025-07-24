@@ -1,16 +1,7 @@
-from fastapi import FastAPI
-import psycopg
+from fastapi import APIRouter
 
-app = FastAPI()
+health_route = APIRouter()
 
-@app.get("/health")
+@health_route.get("/health")
 def health():
 	return {"status": "OK"}
-
-@app.get("/drones")
-def drones():
-	return
-
-@app.get("/nfz")
-def nfz():
-	return

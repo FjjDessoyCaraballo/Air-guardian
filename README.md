@@ -26,23 +26,17 @@ poetry --version
 poetry install
 ```
 
-### Run Development Server
+Start the message broker rabbitmq in a container
 ```bash
-poetry run uvicorn --reload --host 0.0.0.0
+docker run -d -p 5672:5672 rabbitmq
+```
+Run the Celery worker server
+```bash
+celery -A patrol_airspace worker --beat --loglevel=info  
 ```
 
-## Environment Setup
+Get this bad boy online and serving files!
 
-Create a `.env` file in the project root with your configuration:
-
-```env
-DATABASE_URL=postgresql://username:password@localhost:5432/airguardian
-DEBUG=True
-```
-
-## Development
-
-### Direct Command
 ```bash
-poetry run uvicorn src.main:app --reload
+uvicorn main:air_guardian
 ```
