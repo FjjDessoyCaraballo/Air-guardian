@@ -1,27 +1,48 @@
 # Airguardian
 
-## Setup
+## Prerequisites
 
-Create a virtual environment:
+- Python 3.12+
+- Poetry (for dependency management)
 
+## Installation
+
+### Install Poetry
+
+**Official installer (Recommended)**
 ```bash
-python3 -m venv {you_virtual_environment_name}
+curl -sSL https://install.python-poetry.org | python3 -
 ```
 
-Activate the virtual environment:
-
+### Verify Poetry Installation
 ```bash
-source {you_virtual_environment_name}/bin/activate
+poetry --version
 ```
 
-Run the `requirements.txt`:
+## Project Setup
 
+### Install Dependencies
 ```bash
-pip install -r requirements.txt
+poetry install
 ```
 
-Get this bad boy online and serving files!
-
+### Run Development Server
 ```bash
-uvicorn health:app --reload
+poetry run uvicorn --reload --host 0.0.0.0
+```
+
+## Environment Setup
+
+Create a `.env` file in the project root with your configuration:
+
+```env
+DATABASE_URL=postgresql://username:password@localhost:5432/airguardian
+DEBUG=True
+```
+
+## Development
+
+### Direct Command
+```bash
+poetry run uvicorn src.main:app --reload
 ```
