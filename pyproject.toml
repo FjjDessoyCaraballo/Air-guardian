@@ -1,0 +1,35 @@
+[project]
+name = "airguardian"
+version = "0.1.0"
+description = ""
+authors = [
+    { name = "fdessoy-", email = "fdessoy-@hive.student.fi" },
+    { name = "zfarah", email = "zfarah@hive.student.fi" },
+]
+license = { text = "MIT" }
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.116.1,<0.117.0",
+    "psycopg>=3.2.9,<4.0.0",
+    "uvicorn>=0.35.0,<0.36.0"
+]
+
+# Add this Poetry section for scripts
+[tool.poetry]
+name = "airguardian"
+version = "0.1.0"
+description = ""
+authors = [
+    "fdessoy- <fdessoy-@hive.student.fi>",
+    "zfarah <zfarah@hive.student.fi>"
+]
+
+[tool.poetry.scripts]
+dev = "uvicorn health:app --reload"
+start = "uvicorn health:app"
+setup = "echo 'Dependencies installed! Run: poetry run dev'"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
