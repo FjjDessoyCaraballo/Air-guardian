@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "airguardian"
+name = "src"
 version = "0.1.0"
 description = "A FastAPI application for air quality monitoring"
 authors = [
@@ -8,6 +8,7 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
+packages = [{include = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -21,9 +22,14 @@ black = "^23.0.0"
 mypy = "^1.0.0"
 
 [tool.poetry.scripts]
-dev = "uvicorn airguardian.src.main:app --reload"
-start = "uvicorn airguardian.src.main:app"
+dev = "cli:dev"
+start = "cli:start"
 test = "pytest"
+
+
+# Option 1: Remove scripts and use poetry run commands directly
+# [tool.poetry.scripts]
+# dev = "uvicorn src.main:app --reload"  # This still won't work in Poetry scripts
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

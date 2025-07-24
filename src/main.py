@@ -1,9 +1,7 @@
 from fastapi import FastAPI
-import sqlite3
+import psycopg
 
 app = FastAPI()
-
-conn = sqlite3.connect("mydb.db")
 
 @app.get("/health")
 def health():
