@@ -7,6 +7,6 @@ nfz_route = APIRouter()
 def nfz(req: Request):
 	authenticated = authenticate(req.headers.get("X-Secret"))
 	if not authenticated:
-		return HTTPException(401, "Unauthorized")
+		raise HTTPException(401, "Unauthorized")
 	# fetch from db
 	return
