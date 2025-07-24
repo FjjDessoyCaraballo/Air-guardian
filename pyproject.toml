@@ -15,21 +15,24 @@ python = "^3.12"
 fastapi = "^0.116.1"
 psycopg = {extras = ["binary"], version = "^3.2.9"}
 uvicorn = {extras = ["standard"], version = "^0.35.0"}
+requests = {extras = ["standard"], version = "^2.32.4"}
+celery = {extras = ["standard"], version = "^5.5.3"}
+python-dotenv = {extras = ["standard"], version = "1.1.1"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.0.0"
 black = "^23.0.0"
 mypy = "^1.0.0"
 
-[tool.poetry.scripts]
-dev = "cli:dev"
-start = "cli:start"
-test = "pytest"
+# [tool.poetry.scripts]
+# dev = "cli:dev"
+# start = "cli:start"
+# test = "pytest"
 
 
 # Option 1: Remove scripts and use poetry run commands directly
 # [tool.poetry.scripts]
-# dev = "uvicorn src.main:app --reload"  # This still won't work in Poetry scripts
+# dev = "uvicorn main:air_guardian --reload"  # This still won't work in Poetry scripts
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
