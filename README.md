@@ -1,5 +1,13 @@
 # Airguardian
 
+## Required environment variables:
+#### App
+- X-SECRET
+- DRONES_API_BASE_URL
+#### Celery
+- BROKER_URL
+- LOCAL_HOST_URL
+
 ## Setup
 
 Create a virtual environment:
@@ -20,13 +28,13 @@ Run the `requirements.txt`:
 pip install -r requirements.txt
 ```
 
-Start the message broker rabbitmq in a container
+Start the message broker rabbitmq in a container:
 ```bash
 docker run -d -p 5672:5672 rabbitmq
 ```
-Run the Celery worker server
+Run the Celery worker server:
 ```bash
-celery -A patrol_airspace worker --beat --loglevel=info  
+celery -A patrol_airspace worker --beat --loglevel=info --logfile=air_guardian_celery.log
 ```
 
 Get this bad boy online and serving files!
