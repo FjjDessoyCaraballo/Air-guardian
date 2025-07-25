@@ -43,7 +43,7 @@ def create_db():
 		f"user={os.getenv('DB_USER')} "
 		f"password={os.getenv('DB_PASSWORD')}"
 	)
-	
+
 	try:
 		with psycopg.connect(connection_string) as conn:
 			with conn.cursor() as cur:
@@ -83,5 +83,4 @@ def create_db():
 		return False
 		
 	print("Database setup completed successfully")
-	print("end of create_db")
 	return True

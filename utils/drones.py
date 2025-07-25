@@ -18,6 +18,7 @@ def append_owner_details(violated_drones):
             return False
         try:
             body = req.json()
+            drone["id"] = body["id"]
             drone["first_name"] = body["first_name"]
             drone["last_name"] = body["last_name"]
             drone["social_security_number"] = body["social_security_number"]
