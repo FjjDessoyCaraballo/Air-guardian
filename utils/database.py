@@ -59,14 +59,14 @@ def create_db():
 				if not table_exists:
 					cur.execute("""
 						CREATE TABLE nfz_offender (
-							drone_id SERIAL PRIMARY KEY,
+							id INTEGER PRIMARY KEY,
 							time TIMESTAMPTZ,
 							position_x FLOAT,
 							position_y FLOAT,
 							position_z FLOAT,
 							first_name TEXT,
 							last_name TEXT,
-							social_security TEXT,
+							social_security TEXT UNIQUE,
 							phone_number TEXT
 						)
 					""")

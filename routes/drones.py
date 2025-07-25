@@ -36,7 +36,7 @@ def drones():
 		#update db
 	return body
 
-async def list_offender(drones):
+async def list_offender(drones_list):
 	load_dotenv()
 	connection_string = (
 		f"host=localhost port=5432 "
@@ -48,27 +48,28 @@ async def list_offender(drones):
 	try:
 		with psycopg.connect(connection_string) as conn:
 			with conn.cursor() as cur:
-				cur.execute('''
-					INSERT INTO nfz_offender (
-						time, drone_id, position_x, position_y, position_z,
-						first_name, last_name, social_security, phone_number
-				) VALUES (
-					NOW(), %s, %s, %s, %s, %s, %s, %s
-				) ON CONFLICT (drone_id) DO UPDATE SET
-					time = NOW(),
-					position_x = EXCLUDED.position_x,
-					position_y = EXCLUDED.position_y,
-					position_z = EXCLUDED.position_z
-				''', (
-					drones['id'],
-					drones['x'],
-					drones['y'],
-					drones['z'],
-					drones['first_name'],
-					drones['last_name'],
-					drones['social_security_number'],
-					drones['phone_number'],
-				)) #here are the values coming from drone
+				for drone in drones_list:
+					cur.execute('''
+						INSERT INTO nfz_offender (
+							time, id, position_x, position_y, position_z,
+							first_name, last_name, social_security, phone_number
+					) VALUES (
+						NOW(), %s, %s, %s, %s, %s, %s, %s
+					) ON CONFLICT (drone_id) DO UPDATE SET
+						time = NOW(),
+						position_x = EXCLUDED.position_x,
+						position_y = EXCLUDED.position_y,
+						position_z = EXCLUDED.position_z
+					''', (
+						drone['id'],
+						drone['x'],
+						drone['y'],
+						drone.get('z', 0),
+						drone['first_name'],
+						drone['last_name'],
+						drone['social_security_number'],
+						drone['phone_number'],
+					)) #here are the values coming from drone
 				conn.commit()
 	except psycopg.Error as e:
 		print(f'Database insertion failed: {e}')
