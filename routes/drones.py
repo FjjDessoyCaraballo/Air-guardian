@@ -1,6 +1,8 @@
 from fastapi import HTTPException, APIRouter
 from utils.drones import violated_drones, append_owner_details
 import requests
+import psycopg
+import asyncio
 import os
 
 drones_route = APIRouter()
@@ -21,8 +23,15 @@ def drones():
 
 	drones = violated_drones(body)
 	if drones:
-		print("violation detected")
+		print(25*'*')
+		print('** violation detected ***')
+		print(f'{drones}')
+		print(25*'*')
 		if not append_owner_details(drones):
 			return HTTPException(500, "Internal server error")
 		#update db
 	return body
+
+async def list_offender(drones):
+	
+	return
