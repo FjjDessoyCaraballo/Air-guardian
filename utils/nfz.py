@@ -1,6 +1,9 @@
 import os
 from dotenv import load_dotenv
 import psycopg
+import logging
+
+logger = logging.getLogger(__name__)
 
 def authenticate(secret: str):
     if not secret or secret != os.environ["X-SECRET"]:
@@ -24,8 +27,8 @@ def retrieve_nfz_list():
 				result = [dict(zip(columns, row)) for row in rows]
 		return result
 	except psycopg.Error as e:
-		print(f"Database error: {e}")
+		logger.error(f"Database error: {e}")
 		return []
 	except Exception as e:
-		print(f"Unknown error: {e}")
+		logger.error(f"Unknown error: {e}")
 		return []
