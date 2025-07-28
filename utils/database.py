@@ -3,8 +3,10 @@ from dotenv import load_dotenv
 import os
 import time
 import subprocess
+import logging
 
 load_dotenv()
+logger = logging.getLogger(__name__)
 
 def create_db():
 	"""
@@ -13,9 +15,9 @@ def create_db():
 	and password must be provided through the environment variable `.env`. If you do not know how to
 	make your own environment variable, there is an `.env.example` that you can follow.
 	"""
-	print(50*'*')
-	print("Creating postgreSQL database...")
-	print(50*'*')
+	logger.info(50*'*')
+	logger.info("Creating postgreSQL database...")
+	logger.info(50*'*')
 
 	docker_cmd = (
 		f"docker run -d --name airguardian-db "
@@ -33,14 +35,14 @@ def create_db():
 			capture_output=True,
 			text=True
 		)
-		print("Docker container created/started successfully")
-		print(result.stdout)
+		logger.info("Docker container created/started successfully")
+		logger.info(result.stdout)
 	except subprocess.CalledProcessError as e:
-		print(f"Docker command failed: {e}")
-		print(f"Error output: {e.stderr}")
+		logger.error(f"Docker command failed: {e}")
+		logger.error(f"Error output: {e.stderr}")
 		return False
 	
-	print(50*'*')
+	logger.info(50*'*')
 	time.sleep(5)
 	connection_string = (
 		f"host=localhost port=5432 "
@@ -76,16 +78,16 @@ def create_db():
 						)
 					""")
 					conn.commit()
-					print("Table 'nfz_offender' created successfully")
+					logger.info("Table 'nfz_offender' created successfully")
 				else:
-					print("Table 'nfz_offender' already exists")
+					logger.info("Table 'nfz_offender' already exists")
 					
 	except psycopg.Error as e:
-		print(f"Database connection/operation failed: {e}")
+		logger.error(f"Database connection/operation failed: {e}")
 		return False
 	except Exception as e:
-		print(f"Unexpected error: {e}")
+		logger.error(f"Unexpected error: {e}")
 		return False
 		
-	print("Database setup completed successfully")
+	logger.info("Database setup completed successfully")
 	return True
