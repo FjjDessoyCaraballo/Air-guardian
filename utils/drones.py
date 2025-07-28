@@ -3,7 +3,6 @@ import requests
 import os
 import psycopg
 import logging
-from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +40,6 @@ def append_owner_details(violated_drones):
             logger.error("Failed to parse the response body")
             return False
         try:
-            body = req.json()
             drone["first_name"] = body["first_name"]
             drone["last_name"] = body["last_name"]
             drone["social_security_number"] = body["social_security_number"]
@@ -95,9 +93,9 @@ def log_offender(drones_list):
                     )) #here are the values coming from drone
                 conn.commit()
     except psycopg.Error as e:
-        print(f'Database insertion failed: {e}')
+        logger.error(f'Database insertion failed: {e}')
         return False
     except Exception as e:
-        print(f'Unknown exception: {e}')
+        logger.error(f'Unknown exception: {e}')
         return False
     return True
