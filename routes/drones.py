@@ -1,7 +1,9 @@
 from fastapi import HTTPException, APIRouter
-from utils.drones import violated_drones, append_owner_details
 from utils.models import Drone
+from utils.drones import violated_drones, append_owner_details, log_offender
 import requests
+
+import asyncio
 import os
 import logging
 
@@ -10,7 +12,11 @@ logger = logging.getLogger(__name__)
 
 @drones_route.get("/drones", response_model=list[Drone])
 def drones():
-	logger.info("Reached the endpoint /drones")
+	"""
+	The `/drones` endpoint retrieves information from the `DRONES_API_BASE_URL` returning a JSON file
+	with the list of all drones within sight of the radar. Upon detecting a violation, we log the offender
+	drone into the database.
+	"""
 	url = os.environ["DRONES_API_BASE_URL"] + "drones"
 	try:
 		res = requests.get(url)
@@ -31,8 +37,7 @@ def drones():
 
 	drones = violated_drones(body)
 	if drones:
-		logger.info("Detected violation in the no fly zone")
 		if not append_owner_details(drones):
-			raise HTTPException(500, "Internal server error")
-		#update db
+			return HTTPException(500, "Internal server error")
+		log_offender(drones)
 	return body
