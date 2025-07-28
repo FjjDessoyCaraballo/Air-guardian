@@ -1,5 +1,5 @@
 from fastapi import HTTPException, APIRouter
-
+from utils.models import Drone
 from utils.drones import violated_drones, append_owner_details, log_offender
 import requests
 

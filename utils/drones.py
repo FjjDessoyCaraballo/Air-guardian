@@ -2,7 +2,10 @@ import math
 import requests
 import os
 import psycopg
+import logging
 from dotenv import load_dotenv
+
+logger = logging.getLogger(__name__)
 
 def violated_drones(drones):
     """
@@ -59,7 +62,6 @@ def log_offender(drones_list):
     
     :Returns: True/False if either successful or failure.
     """
-    load_dotenv()
     connection_string = (
         f"host=localhost port=5432 "
         f"dbname={os.getenv('DB_NAME')} "
