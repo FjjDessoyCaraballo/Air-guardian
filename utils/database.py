@@ -35,8 +35,7 @@ def create_db():
 		return False
 	
 	print(50*'*')
-	time.sleep(5)  # Wait for PostgreSQL to start
-	# Connection string using environment variables
+	time.sleep(5)
 	connection_string = (
 		f"host=localhost port=5432 "
 		f"dbname={os.getenv('DB_NAME')} "
@@ -47,7 +46,6 @@ def create_db():
 	try:
 		with psycopg.connect(connection_string) as conn:
 			with conn.cursor() as cur:
-				# Check if table already exists
 				cur.execute("""
 					SELECT EXISTS (
 						SELECT FROM information_schema.tables 
@@ -59,14 +57,15 @@ def create_db():
 				if not table_exists:
 					cur.execute("""
 						CREATE TABLE nfz_offender (
-							id INTEGER PRIMARY KEY,
+							id SERIAL PRIMARY KEY,
+							drone_uuid TEXT UNIQUE NOT NULL,
 							time TIMESTAMPTZ,
 							position_x FLOAT,
 							position_y FLOAT,
 							position_z FLOAT,
 							first_name TEXT,
 							last_name TEXT,
-							social_security TEXT UNIQUE,
+							social_security TEXT,
 							phone_number TEXT
 						)
 					""")

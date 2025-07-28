@@ -28,15 +28,19 @@ def drones():
 			return HTTPException(500, "Internal server error")
 		print(50*'*')
 		print('** violation detected ***')
+		print(drones)
 		print(50*'*')
-		list_offender(drones)
-		print('** Offender added to list ***')
+		success = list_offender(drones)
+		if success:
+			print('** Offender added to list ***')
+		else:
+			print('** Failed to insert to list ***')
 		print(50*'*')
 
 		#update db
 	return body
 
-async def list_offender(drones_list):
+def list_offender(drones_list):
 	load_dotenv()
 	connection_string = (
 		f"host=localhost port=5432 "
@@ -51,11 +55,11 @@ async def list_offender(drones_list):
 				for drone in drones_list:
 					cur.execute('''
 						INSERT INTO nfz_offender (
-							time, id, position_x, position_y, position_z,
+							time, drone_uuid, position_x, position_y, position_z,
 							first_name, last_name, social_security, phone_number
 					) VALUES (
 						NOW(), %s, %s, %s, %s, %s, %s, %s
-					) ON CONFLICT (drone_id) DO UPDATE SET
+					) ON CONFLICT (social_security_number) DO UPDATE SET
 						time = NOW(),
 						position_x = EXCLUDED.position_x,
 						position_y = EXCLUDED.position_y,
@@ -64,7 +68,7 @@ async def list_offender(drones_list):
 						drone['id'],
 						drone['x'],
 						drone['y'],
-						drone.get('z', 0),
+						drone['z'],
 						drone['first_name'],
 						drone['last_name'],
 						drone['social_security_number'],
