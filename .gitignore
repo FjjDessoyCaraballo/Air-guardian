@@ -7,3 +7,4 @@ mydb.db
 __pycache__
 */__pycache__
 .env
+*.log
