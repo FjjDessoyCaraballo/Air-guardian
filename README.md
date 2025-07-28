@@ -1,5 +1,5 @@
 # Airguardian
-
+<img width="1237" height="614" alt="Image" src="https://github.com/user-attachments/assets/5afb7e30-a05a-4009-ad77-1200716932f9" />
 ## Setup
 
 Create a virtual environment:
