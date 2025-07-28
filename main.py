@@ -11,4 +11,3 @@ air_guardian = FastAPI()
 air_guardian.include_router(health_route)
 air_guardian.include_router(drones_route)
 air_guardian.include_router(nfz_route)
-

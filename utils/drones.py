@@ -23,8 +23,19 @@ def violated_drones(drones):
 def append_owner_details(violated_drones):
     for drone in violated_drones:
         url = os.environ["DRONES_API_BASE_URL"] + "users/" + str(drone["owner_id"])
-        req = requests.get(url)
-        if req.status_code != 200:
+        try:
+            res = requests.get(url)
+        except Exception as err:
+            logger.error("Error occurred while fetching owner details:{}".format(url))
+            logger.error(err)
+            return False
+        if res.status_code != 200:
+            logger.error("Received status code {} from {}".format(res.status_code, url))
+            return False
+        try:
+            body = res.json()
+        except:
+            logger.error("Failed to parse the response body")
             return False
         try:
             body = req.json()
@@ -33,7 +44,8 @@ def append_owner_details(violated_drones):
             drone["last_name"] = body["last_name"]
             drone["social_security_number"] = body["social_security_number"]
             drone["phone_number"] = body["phone_number"]
-        except:
+        except Exception as err:
+            logger.error("Error occured while updating drone's owner details \n{}".format(err))
             return False
     return True
 

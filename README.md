@@ -77,4 +77,3 @@ poetry run test
 - **Health Check**: `GET /health`
 - **Drones**: `GET /drones`
 - **No-Fly Zones**: `GET /nfz` (requires X-Secret header)
-

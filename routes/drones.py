@@ -5,10 +5,12 @@ import requests
 
 import asyncio
 import os
+import logging
 
 drones_route = APIRouter()
+logger = logging.getLogger(__name__)
 
-@drones_route.get("/drones")
+@drones_route.get("/drones", response_model=list[Drone])
 def drones():
 	"""
 	The `/drones` endpoint retrieves information from the `DRONES_API_BASE_URL` returning a JSON file
@@ -16,16 +18,22 @@ def drones():
 	drone into the database.
 	"""
 	url = os.environ["DRONES_API_BASE_URL"] + "drones"
-	res = requests.get(url)
+	try:
+		res = requests.get(url)
+	except Exception as err:
+		logger.error("Error occurred from request url:{}".format(url))
+		logger.error(err)
+		raise HTTPException(500, "Internal server error")
+	
 	if res.status_code != 200:
-		# log error
-		return HTTPException(500, "Internal server error")
+		logger.error("Received status code {} from {}".format(res.status_code, url))
+		raise HTTPException(500, "Internal server error")
 
 	try:
 		body = res.json()
 	except:
-		# log error
-		return HTTPException(500, "Internal server error")
+		logger.error("Failed to parse the response body")
+		raise HTTPException(500, "Internal server error")
 
 	drones = violated_drones(body)
 	if drones:
