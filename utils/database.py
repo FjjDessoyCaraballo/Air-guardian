@@ -7,6 +7,12 @@ import subprocess
 load_dotenv()
 
 def create_db():
+	"""
+	This function is responsible for the initial creation of the database and set up. The database 
+	is created within a container that can be communicated through port 5432. The database name, user,
+	and password must be provided through the environment variable `.env`. If you do not know how to
+	make your own environment variable, there is an `.env.example` that you can follow.
+	"""
 	print(50*'*')
 	print("Creating postgreSQL database...")
 	print(50*'*')
