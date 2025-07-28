@@ -2,8 +2,6 @@ from fastapi import HTTPException, APIRouter
 from utils.models import Drone
 from utils.drones import violated_drones, append_owner_details, log_offender
 import requests
-
-import asyncio
 import os
 import logging
 
@@ -38,6 +36,6 @@ def drones():
 	drones = violated_drones(body)
 	if drones:
 		if not append_owner_details(drones):
-			return HTTPException(500, "Internal server error")
+			raise HTTPException(500, "Internal server error")
 		log_offender(drones)
 	return body
