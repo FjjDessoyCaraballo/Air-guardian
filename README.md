@@ -1,4 +1,7 @@
 # Airguardian
+### System Architecture design
+
+<img width="1187" height="582" alt="Flowchart" src="https://github.com/user-attachments/assets/6ea8c40b-2cda-4ba2-b3c5-5b7fbab2f3ed" />
 
 ## Prerequisites
 
@@ -32,6 +35,11 @@ Create a `.env` file with your configuration:
 ```env
 DRONES_API_BASE_URL=https://api.example.com/
 X-SECRET=your-secret-key
+BROKER_URL=amqp://localhost:5672
+LOCAL_HOST_URL=http://localhost:8000/
+DB_NAME=nfz_list
+DB_USER=user_name
+DB_PASSWORD=super_secret_password
 ```
 
 ## Running the Application
@@ -43,7 +51,7 @@ docker run -d -p 5672:5672 --name rabbitmq rabbitmq:3-management
 
 ### Run the Celery Worker (Background Tasks)
 ```bash
-poetry run celery -A patrol_airspace worker --beat --loglevel=info
+poetry run celery -A patrol_airspace worker --beat --loglevel=info --logfile=air_guardian_celery.log
 ```
 
 ### Start the FastAPI Server
