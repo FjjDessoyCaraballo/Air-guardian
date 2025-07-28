@@ -28,7 +28,6 @@ def drones():
 			return HTTPException(500, "Internal server error")
 		print(50*'*')
 		print('** violation detected ***')
-		print(drones)
 		print(50*'*')
 		success = list_offender(drones)
 		if success:
@@ -55,11 +54,11 @@ def list_offender(drones_list):
 				for drone in drones_list:
 					cur.execute('''
 						INSERT INTO nfz_offender (
-							time, drone_uuid, position_x, position_y, position_z,
+							drone_uuid, position_x, position_y, position_z,
 							first_name, last_name, social_security, phone_number
 					) VALUES (
-						NOW(), %s, %s, %s, %s, %s, %s, %s
-					) ON CONFLICT (social_security_number) DO UPDATE SET
+						%s, %s, %s, %s, %s, %s, %s, %s
+					) ON CONFLICT (drone_uuid) DO UPDATE SET
 						time = NOW(),
 						position_x = EXCLUDED.position_x,
 						position_y = EXCLUDED.position_y,

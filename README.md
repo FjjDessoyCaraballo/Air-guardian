@@ -56,8 +56,25 @@ poetry run uvicorn main:air_guardian --reload --host 0.0.0.0 --port 8000
 poetry run test
 ```
 
+## Table Structure
+
+| Column | Type | Nullable | Default | Notes |
+|--------|------|----------|---------|-------|
+| `id` | `integer` | NOT NULL | `nextval('nfz_offender_id_seq'::regclass)` | **Primary Key** (Auto-increment) |
+| `drone_uuid` | `text` | NOT NULL | - | **Unique Constraint** |
+| `time` | `timestamp with time zone` | YES | - | Violation timestamp |
+| `position_x` | `double precision` | YES | - | X coordinate |
+| `position_y` | `double precision` | YES | - | Y coordinate |
+| `position_z` | `double precision` | YES | - | Z coordinate |
+| `first_name` | `text` | YES | - | Owner's first name |
+| `last_name` | `text` | YES | - | Owner's last name |
+| `social_security` | `text` | YES | - | Owner's social security |
+| `phone_number` | `text` | YES | - | Owner's phone number |
+
+
 ## API Endpoints
 
 - **Health Check**: `GET /health`
 - **Drones**: `GET /drones`
 - **No-Fly Zones**: `GET /nfz` (requires X-Secret header)
+
