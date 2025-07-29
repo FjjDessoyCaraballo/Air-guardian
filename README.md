@@ -1,4 +1,11 @@
 # Airguardian
+
+## Overview
+
+The Airguardian is an app that monitors and logs activity of drones. One can check the activity of the drones through the [radar](https://drones-api.hive.fi/demo3d) to compare with the results from our database.
+
+This project uses three API endpoints: health, drones, and nfz. Through these endpoints we capture given data in JSON format from [here](https://drones-api.hive.fi/) and we detect all offending drones within 1000m radius of the no-fly zone.
+
 ### System Architecture design
 
 <img width="1187" height="582" alt="Flowchart" src="https://github.com/user-attachments/assets/6ea8c40b-2cda-4ba2-b3c5-5b7fbab2f3ed" />
@@ -59,11 +66,6 @@ poetry run celery -A patrol_airspace worker --beat --loglevel=info --logfile=air
 poetry run uvicorn main:air_guardian --reload --host 0.0.0.0 --port 8000
 ```
 
-### Run Tests
-```bash
-poetry run test
-```
-
 ## Table Structure
 
 | Column | Type | Nullable | Default | Notes |
@@ -78,7 +80,6 @@ poetry run test
 | `last_name` | `text` | YES | - | Owner's last name |
 | `social_security` | `text` | YES | - | Owner's social security |
 | `phone_number` | `text` | YES | - | Owner's phone number |
-
 
 ## API Endpoints
 
