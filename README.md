@@ -86,3 +86,14 @@ poetry run uvicorn main:air_guardian --reload --host 0.0.0.0 --port 8000
 - **Health Check**: `GET /health`
 - **Drones**: `GET /drones`
 - **No-Fly Zones**: `GET /nfz` (requires X-Secret header)
+
+## FAQ
+
+> "The `/nfz` endpoint keeps telling me I'm unauthorized!"
+
+Direct access through the browser will probably need some modifications to your header. The best way to test this endpoint is through `curl` command in terminal:
+
+```bash
+curl -H "X-Secret:{your-super-secret}" http://localhost:8000/nfz
+```
+Or using [Postman](https://www.postman.com/) and adding the X-SECRET header with your secret.
