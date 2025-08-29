@@ -1,5 +1,7 @@
 # Airguardian
 
+![](./airguardian.gif)
+
 ## Overview
 
 The Airguardian is an app that monitors and logs activity of drones. One can check the activity of the drones through the [radar](https://drones-api.hive.fi/demo3d) to compare with the results from our database.
